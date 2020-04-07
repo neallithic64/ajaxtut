@@ -34,7 +34,8 @@ $(document).ready(function() {
 	});
 	
 	// Here, I get that JSON file again to retrieve data from it and make a query.
-	$('button#submit').click(function() {
+//	$('button#submit').click(function() { // use the button as a submit button
+	$('select#ids').change(function() { // when the dropdown menu is updated, rerender
 		$('table#userdeets').empty();
 		var query = $('select#ids').val(); // Get the id the user selected in the dropdown.
 		
