@@ -8,10 +8,36 @@
 	file for data and loading it to the page.
 */
 
-// Global variable of the URL where my JSON file is hosted.
+
+// Global variable of the URL where my JSON file is hosted. I'd use the data.json file, but I can't make
+// GET or POST requests to a local file, since it doesn't have an API (usually only servers have one).
 var url = "http://www.json-generator.com/api/json/get/bUYOgvpDjC?indent=2";
 
-// We begin by making the usual document.ready function using jQuery.
+
+/* Here's one way to submit AJAX requests using the 
+*/
+function sendHttpRequest() {
+	var xhr = new XMLHttpRequest();
+	xhr.open('GET', url, true);
+	xhr.setRequestHeader("Content-Type", "application/json");
+
+	xhr.onreadystatechange = function() {
+		if (xhr.status === 200 && xhr.readyState === 4) {
+			alert('Data received');
+			// blah blah blah
+			// $('select#ids').append( S T U F F );
+		}
+	};
+	xhr.send();
+}
+/* Looks complicated, right? Usually these are used for much more complicated server processes, but
+	forget about that. What's nice is that the jQuery library already has AJAX integrated in it, so
+	you get all the benefits of AJAX with less complications. An example is given below.
+*/
+
+
+
+// We begin by making the usual $(document).ready() function using jQuery.
 $(document).ready(function() {
 	/* Inside, we load up the JSON file using AJAX! Notice the usual $ notation? AJAX is actually
 		part of jQuery, so you can easily make use of it through there. Below, I used $.getJSON().
