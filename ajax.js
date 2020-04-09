@@ -14,7 +14,7 @@
 var url = "http://www.json-generator.com/api/json/get/bUYOgvpDjC?indent=2";
 
 
-/* Here's one way to submit AJAX requests using the 
+/* Here's one way to submit AJAX requests using the browser-set XMLHttpRequest object (a.k.a. XHR).
 */
 function sendHttpRequest() {
 	var xhr = new XMLHttpRequest();
@@ -30,15 +30,17 @@ function sendHttpRequest() {
 	};
 	xhr.send();
 }
-/* Looks complicated, right? Usually these are used for much more complicated server processes, but
-	forget about that. What's nice is that the jQuery library already has AJAX integrated in it, so
-	you get all the benefits of AJAX with less complications. An example is given below.
+/* Looks complicated, right? Usually these are used for much more complicated server processes and other
+	kinds of HTTP requests (PUT, DELETE, PATCH, etc.), but forget about that in the meantime. What's nice
+	is that the jQuery library already has AJAX integrated in it, so you get all the benefits of AJAX
+	with less complications. An example is given below.
 */
 
 
 
 // We begin by making the usual $(document).ready() function using jQuery.
 $(document).ready(function() {
+
 	/* Inside, we load up the JSON file using AJAX! Notice the usual $ notation? AJAX is actually
 		part of jQuery, so you can easily make use of it through there. Below, I used $.getJSON().
 		That's just a quick way to retrieve data from a JSON file using AJAX.
@@ -51,18 +53,25 @@ $(document).ready(function() {
 		});
 	});
 	
-	/* This is the full version of the above AJAX call. Functionably, they do the same thing, but
-		$.ajax() is used for wider uses, like working with .txt files, or databases. *wink wink*
+
+
+	/* This is the full version/syntax of the above AJAX call. Functionably, they do the same thing,
+		but $.ajax() is used for wider uses, like working with .txt files, or databases. *wink wink*
 	*/
 	$.ajax({dataType: "json", url: url, success: function(data) {
 			// function logic here!
+			// Note that "data" is the result data sent by the server. In the context of Node.js and
+			// Express, this is whatever's passed through res.send().
 		}
 	});
 	
+
+
 	// Here, I get that JSON file again to retrieve data from it and make a query.
-//	$('button#submit').click(function() { // use the button as a submit button
-	$('select#ids').change(function() { // when the dropdown menu is updated, rerender
-		$('table#userdeets').empty();
+//	$('button#submit').click(function() { // To use the button for submitting instead.
+
+	$('select#ids').change(function() { // When the dropdown menu is updated, make the server request.
+		$('table#userdeets').empty(); // To clear out the result table.
 		var query = $('select#ids').val(); // Get the id the user selected in the dropdown.
 		
 		// Make the same query to the JSON file similar to earlier...
