@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		<title>Login Page</title>
+		<script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+	</head>
+	
+	<body>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				
+				$('button#login-button').click(function() {
+					var email = $('#email').val();
+					var pass = $('#pass').val();
+					
+					// pass data to the server
+					// jQuery.post( url , data , success )
+					$.post('/postLogin', {email: email, password: pass}, function(status, resMsg) {
+						// we're expecting 1 out of 3 possible status codes
+						// 200, 401, 500
+						
+						switch (status) {
+							case 200: { // success!
+								// redirect to the homepage!
+								window.location.href = '/';
+								break;
+							}
+							
+							case 401:
+							case 500: {
+								$('p#error').append(resMsg);
+								$('#email').val('');
+								$('#pass').val('');
+								break;
+							}
+						}
+					});
+				});
+				
+			});
+		</script>
+		
+		<p id="error"></p>
+		<form>
+			<input id="email" type="text" placeholder="Enter email"></input>
+			<input id="pass" type="password" placeholder="Enter pass"></input>
+			<button id="login-button" type="button"></button>
+		</form>
+		
+	</body>
+</html>
